@@ -23,7 +23,7 @@ public class Grid implements Cloneable{
     }
 
     /**
-     * Create an empty grid.
+     * Create an empty grid, containing only walls
      * @param height the height of the empty grid
      * @param width the width of the empty grid
      */
@@ -36,7 +36,7 @@ public class Grid implements Cloneable{
 
         for (int posRow = 0; posRow < HEIGHT; posRow++) {
             for (int posColumn = 0; posColumn < WIDTH; posColumn++) {
-                grid[posRow][posColumn] = new GridTile(posRow, posColumn, GlobalConstants.INPUT_PASSAGE);
+                grid[posRow][posColumn] = new GridTile(posRow, posColumn, GlobalConstants.INPUT_WALL);
             }
         }
     }
@@ -61,7 +61,6 @@ public class Grid implements Cloneable{
     public Character getContentAt(int posRow, int posColumn){ return grid[posRow][posColumn].getContent(); }
     public void setElem(int posRow, int posColumn, Character val){ grid[posRow][posColumn].setContent(val); }
     public GridTile getElemAt(int posRow, int posColumn) { return grid[posRow][posColumn]; }
-    public void saveTile(GridTile tile) { grid[tile.getRow()][tile.getColumn()] = tile; }
 
     public void setGrid(GridTile[][] newGrid) {
 

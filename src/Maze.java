@@ -2,9 +2,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Random;
 
 public class Maze implements Cloneable{
 
@@ -21,8 +22,19 @@ public class Maze implements Cloneable{
     public GridTile getStartPos(){ return this.START_POS; }
     public GridTile getEndPos(){ return this.END_POS; }
 
+    /*
+     * Initialize a maze object using information in a file
+     */
     public Maze(File file) {
         loadMaze(file.getPath());;  // read the entire file into a List
+    }
+
+    /*
+     * Initialize a random maze, given only height and width
+     */
+    public Maze(int height, int width) {
+        /* Populate the random maze */
+        generateMaze(height, width);
     }
 
     /**
@@ -57,6 +69,9 @@ public class Maze implements Cloneable{
         return gridString;
     }
 
+    /*
+     * Load the Maze data from a file
+     */
     public void loadMaze(String path) {
 
         List<String> allInputLines = null;  // read the entire file into a List
@@ -69,16 +84,16 @@ public class Maze implements Cloneable{
         String[] mazeMetadataTemp = null;   // temporary array that holds the maze metadata
 
         mazeMetadataTemp = allInputLines.get(0).split("\\s+");
-        HEIGHT  = Integer.parseInt(mazeMetadataTemp[0]);
-        WIDTH   = Integer.parseInt(mazeMetadataTemp[1]);
+        this.HEIGHT  = Integer.parseInt(mazeMetadataTemp[0]);
+        this.WIDTH   = Integer.parseInt(mazeMetadataTemp[1]);
         allInputLines.remove(0); // No longer needed in the list, removing
 
         mazeMetadataTemp = allInputLines.get(0).split("\\s+");
-        START_POS = new GridTile(Integer.parseInt(mazeMetadataTemp[0]), Integer.parseInt(mazeMetadataTemp[1]), GlobalConstants.OUTPUT_START);
+        this.START_POS = new GridTile(Integer.parseInt(mazeMetadataTemp[0]), Integer.parseInt(mazeMetadataTemp[1]), GlobalConstants.OUTPUT_START);
         allInputLines.remove(0); // No longer needed in the list, removing
 
         mazeMetadataTemp = allInputLines.get(0).split("\\s+");
-        END_POS = new GridTile(Integer.parseInt(mazeMetadataTemp[0]), Integer.parseInt(mazeMetadataTemp[1]), GlobalConstants.OUTPUT_END);
+        this.END_POS = new GridTile(Integer.parseInt(mazeMetadataTemp[0]), Integer.parseInt(mazeMetadataTemp[1]), GlobalConstants.OUTPUT_END);
         allInputLines.remove(0); // No longer needed in the list, removing
 
         //Send the remaining list to be transformed to a Grid object
@@ -86,42 +101,104 @@ public class Maze implements Cloneable{
 
     }
 
-    public void generateMaze() {
-        HEIGHT = 10;
-        WIDTH = 10;
-        START_POS = new GridTile(1, 1, GlobalConstants.OUTPUT_START);
-        END_POS = new GridTile(8, 8, GlobalConstants.OUTPUT_END);
+    /**
+     * Generate a random maze
+     */
+    public void generateMaze(int height, int width) {
+        /* The random maze needs to have odd dimension sizes */
+        this.HEIGHT = (height%2==0)?height+1:height;
+        this.WIDTH  = (width%2==0)?width+1:width;
+
+        /* Always start at the top left */
+        this.START_POS = new GridTile(1,1, GlobalConstants.OUTPUT_START);
+        /* Always end at the bottom right */
+        this.END_POS   = new GridTile(this.HEIGHT - 2, this.WIDTH - 2, GlobalConstants.OUTPUT_END);
         /**
          * Create an empty Grid
          */
         grid = new Grid(HEIGHT, WIDTH);
 
-        /* Generate a random Grid */
-
-
+        /* Generate a random grid */
+        generateGrid(this.getStartPos());
     }
 
     /*
-     * Generate a random Grid
+     * Generate a random grid
      */
-    private Grid generateGrid() {
-        return null;
+    private void generateGrid(GridTile node){
+
+        /* This will run until there are no more tiles no be "opened" */
+        while(true){
+
+            /*
+             * List of candidates, based in the following rule:
+             * If there is a wall 2 blocks away, we can "open" the adjacent wall
+             */
+            List<GridTile> neighbours = new LinkedList<>();
+
+            if( node.getRow() >= 2
+                    && grid.getContentAt(node.getRow() - 2, node.getColumn()) != GlobalConstants.INPUT_PASSAGE)
+            {
+                neighbours.add(grid.getElemAt(node.getRow() - 2, node.getColumn()));  // The North side is available
+            }
+            if( node.getColumn() >= 2
+                    && grid.getContentAt(node.getRow(), node.getColumn() - 2) != GlobalConstants.INPUT_PASSAGE)
+            {
+                neighbours.add(grid.getElemAt(node.getRow(), node.getColumn() - 2));  // The West side is available
+            }
+            if( node.getRow() < HEIGHT - 2
+                    && grid.getContentAt(node.getRow() + 2, node.getColumn()) != GlobalConstants.INPUT_PASSAGE)
+            {
+                neighbours.add(grid.getElemAt(node.getRow() + 2, node.getColumn()));  // The South side is available
+            }
+            if( node.getColumn() < WIDTH - 2
+                    && grid.getContentAt(node.getRow(), node.getColumn() + 2) != GlobalConstants.INPUT_PASSAGE)
+            {
+                neighbours.add(grid.getElemAt(node.getRow(), node.getColumn() + 2));  // The East side is available
+            }
+
+            if(neighbours.size() == 0) {
+                /* End if we reached a dead end */
+                break;
+            }
+            else {
+                /*
+                 * Select a random neighbour to go to next
+                 */
+                Random random = new Random();
+                int nextNodeIndex = random.nextInt(neighbours.size());
+
+                int selectedRow = neighbours.get(nextNodeIndex).getRow();
+                int selectedColumn = neighbours.get(nextNodeIndex).getColumn();
+
+                /* Mark the tile 2 blocks away as "open" */
+                grid.setElem(selectedRow, selectedColumn, GlobalConstants.INPUT_PASSAGE);
+                /* Mark the adjacent tile as "open" */
+                grid.setElem((node.getRow() + selectedRow)/2,(node.getColumn() + selectedColumn)/2, GlobalConstants.INPUT_PASSAGE);
+                /* Recurse using the selected tile (2 tiles away from the current) */
+                generateGrid(grid.getElemAt(selectedRow, selectedColumn));
+            }
+        }
     }
 
-
+    /*
+     * Get the number of adjacent accessible neighbours
+     */
     public int getAvailableDirections(GridTile node){
         return getAvailableNeighbours(node).size();
     }
 
-    // Create a List of accessible neighbours.
+    /*
+     * Get the list of adjacent accessible neighbours
+     */
     public List<GridTile> getAvailableNeighbours(GridTile node){
         List<GridTile> neighbours = new LinkedList<>();
-        if( node.getRow() > 0
+        if( node.getRow() >= 1
             && grid.getContentAt(node.getRow() - 1, node.getColumn()) == GlobalConstants.INPUT_PASSAGE)
         {
             neighbours.add(grid.getElemAt(node.getRow() - 1, node.getColumn()));  // The North tile is available
         }
-        if( node.getColumn() > 0
+        if( node.getColumn() >= 1
             && grid.getContentAt(node.getRow(), node.getColumn() - 1) == GlobalConstants.INPUT_PASSAGE)
         {
             neighbours.add(grid.getElemAt(node.getRow(), node.getColumn() - 1));  // The West tile is available
