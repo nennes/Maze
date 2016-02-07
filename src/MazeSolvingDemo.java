@@ -5,19 +5,72 @@ import java.util.Scanner;
 public class MazeSolvingDemo {
 
     public static void main(String[] args) {
-        File fileSelection;                                         // Variable that points to the selected input file
-        String algorithmSelection;                                  // Variable that points to the selected algorithm
+        File fileSelection;                                         // Points to the selected input file
+        String algorithmSelection;                                  // Points to the selected algorithm
         SolutionFactory solutionFactory = new SolutionFactory();    // Factory that determines which solver will run
+        Maze maze = null;                                           // Create the Maze pointer
 
-        fileSelection = fileUI();                                   // Get the Maze selection from the user
-
-        Maze maze = new Maze(fileSelection);                        // Load the Maze
+        if(randomUI()) {
+            /* the user has chosen to randomly generate a maze */
+            maze = new Maze(mazeSizeUI());                         // Create the Maze
+        }
+        else {
+            /* the user has declined random generation,
+             * the available files will be presented
+             */
+            fileSelection = fileUI();                               // Get the Maze selection from the user
+            maze = new Maze(fileSelection);                         // Create the Maze
+        }
 
         algorithmSelection = algorithmUI();                         // Get the algorithm selection from the user
 
         Solution solution = solutionFactory.getSolution(maze, algorithmSelection); // Create the solver instance
 
         resultsUI(solution);                                        // Solve it and present the solution
+    }
+
+    /**
+     * Prompt the user to generate a dynamic maze instead
+     * of loading it from a file
+     * @return true if a random maze will be created
+     */
+    private static boolean randomUI() {
+        Scanner user_input = new Scanner(System.in);
+        String userSelection;
+
+        // Display the option to generate a maze randomly
+        System.out.println("Would you like to generate a random maze?(y/n)");
+        userSelection = user_input.next();
+        while (!userSelection.equalsIgnoreCase("y") && !userSelection.equalsIgnoreCase("n")) {
+            System.out.print("Invalid input. Please try again. (Valid input: 'y' or 'n')\n>> ");
+            userSelection = user_input.next();
+        }
+        return userSelection.equalsIgnoreCase("y")?true:false;
+    }
+
+    /**
+     * Prompt the user for the random maze dimensions
+     * @return an integer array containing the [height, width]
+     */
+    private static int[] mazeSizeUI() {
+        Scanner user_input = new Scanner(System.in);
+        int[] userSelection = new int[2];
+
+        // Prompt for height and width
+        System.out.println("Please insert the height of the Maze:\n>> ");
+        userSelection[0] = Utils.stringToInt(user_input.next());
+        while (userSelection[0] < 1) {
+            System.out.print("Invalid height. Please try again.\n>> ");
+            userSelection[0] = Utils.stringToInt(user_input.next());
+        }
+        System.out.println("Please insert the width of the Maze:\n>> ");
+        userSelection[1] = Utils.stringToInt(user_input.next());
+        while (userSelection[1] < 1) {
+            System.out.print("Invalid width. Please try again.\n>> ");
+            userSelection[1] = Utils.stringToInt(user_input.next());
+        }
+
+        return userSelection;
     }
 
     /**

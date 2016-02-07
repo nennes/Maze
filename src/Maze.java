@@ -32,9 +32,9 @@ public class Maze implements Cloneable{
     /*
      * Initialize a random maze, given only height and width
      */
-    public Maze(int height, int width) {
+    public Maze(int[] mazeDimensions) {
         /* Populate the random maze */
-        generateMaze(height, width);
+        generateMaze(mazeDimensions);
     }
 
     /**
@@ -104,10 +104,10 @@ public class Maze implements Cloneable{
     /**
      * Generate a random maze
      */
-    public void generateMaze(int height, int width) {
+    public void generateMaze(int[] mazeDimensions) {
         /* The random maze needs to have odd dimension sizes */
-        this.HEIGHT = (height%2==0)?height+1:height;
-        this.WIDTH  = (width%2==0)?width+1:width;
+        this.HEIGHT = (mazeDimensions[0]%2==0)?mazeDimensions[0]+1:mazeDimensions[0];
+        this.WIDTH  = (mazeDimensions[1]%2==0)?mazeDimensions[1]+1:mazeDimensions[1];
 
         /* Always start at the top left */
         this.START_POS = new GridTile(1,1, GlobalConstants.OUTPUT_START);
