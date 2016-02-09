@@ -22,11 +22,11 @@ public class PruneSolver extends Solver implements Solution<Maze> {
                 for (int posColumn = 0; posColumn< mazeWidth; posColumn++) {
                     // Invalidate this tile if it is a dead end passage
                     if( mazeClone.getAvailableDirections(mazeClone.getGrid().getElemAt(posRow, posColumn)) == 1
-                        && mazeClone.getGrid().getContentAt(posRow, posColumn) == GlobalConstants.INPUT_PASSAGE
+                        && mazeClone.getGrid().getContentAt(posRow, posColumn) == GlobalConstant.INPUT_PASSAGE
                         && !(posRow == mazeClone.getStartPos().getRow() && posColumn == mazeClone.getStartPos().getColumn())
                         && !(posRow == mazeClone.getEndPos().getRow()   && posColumn == mazeClone.getEndPos().getColumn())) {
 
-                        mazeClone.getGrid().setElem(posRow, posColumn, GlobalConstants.OUTPUT_PASSAGE);
+                        mazeClone.getGrid().setElem(posRow, posColumn, GlobalConstant.OUTPUT_PASSAGE);
                         pruned = true;
                     }
                 }
@@ -48,7 +48,7 @@ public class PruneSolver extends Solver implements Solution<Maze> {
         // The presence of even one INPUT_PASSAGE in the grid, by definition indicates a complete path to the end.
         for (int posRow = 0; posRow< mazeHeight; posRow++) {
             for (int posColumn = 0; posColumn< mazeWidth; posColumn++) {
-                if(maze.getGrid().getContentAt(posRow,posColumn) == GlobalConstants.INPUT_PASSAGE){
+                if(maze.getGrid().getContentAt(posRow,posColumn) == GlobalConstant.INPUT_PASSAGE){
                     // A valid solution exists. Update the flag and return the grid.
                     return true;
                 }

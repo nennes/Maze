@@ -2,9 +2,14 @@ import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class MazeSolvingDemo {
 
+    private static final String INPUT_DIRECTORY = "inputs";
+
     public static void main(String[] args) {
+
         File fileSelection;                                         // Points to the selected input file
         String algorithmSelection;                                  // Points to the selected algorithm
         SolutionFactory solutionFactory = new SolutionFactory();    // Factory that determines which solver will run
@@ -19,7 +24,16 @@ public class MazeSolvingDemo {
              * the available files will be presented
              */
             fileSelection = fileUI();                               // Get the Maze selection from the user
-            maze = new Maze(fileSelection);                         // Create the Maze
+            try {
+                maze = new Maze(fileSelection);                     // Create the Maze
+            } catch (Exception e) {
+                /*
+                 * Encountered an error while trying to load the file
+                 * Notify the user and exit
+                 */
+                System.out.println("Error: Failed to load the maze from the file.");
+                exit(-1);
+            }
         }
 
         algorithmSelection = algorithmUI();                         // Get the algorithm selection from the user
@@ -57,15 +71,15 @@ public class MazeSolvingDemo {
         int[] userSelection = new int[2];
 
         // Prompt for height and width
-        System.out.println("Please insert the height of the Maze:\n>> ");
+        System.out.println("Please insert the height of the Maze (minimum 4):\n>> ");
         userSelection[0] = Utils.stringToInt(user_input.next());
-        while (userSelection[0] < 1) {
-            System.out.print("Invalid height. Please try again.\n>> ");
+        while (userSelection[0] < 4) {
+            System.out.print("Invalid height). Please try again.\n>> ");
             userSelection[0] = Utils.stringToInt(user_input.next());
         }
-        System.out.println("Please insert the width of the Maze:\n>> ");
+        System.out.println("Please insert the width of the Maze (minimum 4):\n>> ");
         userSelection[1] = Utils.stringToInt(user_input.next());
-        while (userSelection[1] < 1) {
+        while (userSelection[1] < 4) {
             System.out.print("Invalid width. Please try again.\n>> ");
             userSelection[1] = Utils.stringToInt(user_input.next());
         }
@@ -80,7 +94,7 @@ public class MazeSolvingDemo {
     private static File fileUI() {
 
         Scanner user_input = new Scanner(System.in);
-        List<File> availableFiles = Utils.getFileList(GlobalConstants.INPUT_DIRECTORY);
+        List<File> availableFiles = Utils.getFileList(INPUT_DIRECTORY);
         int userSelection;
 
         // Display a list of the available files, 1-based

@@ -28,16 +28,16 @@ public class BfsSolver extends Solver implements Solution<Maze> {
         // Loop through the Grid and clear all the passages
         for (int posRow = 0; posRow< mazeHeight; posRow++) {
             for (int posColumn = 0; posColumn< mazeWidth; posColumn++) {
-                if(mazeClone.getGrid().getContentAt(posRow, posColumn) == GlobalConstants.INPUT_PASSAGE){
-                    mazeClone.getGrid().setElem(posRow, posColumn, GlobalConstants.OUTPUT_PASSAGE);
+                if(mazeClone.getGrid().getContentAt(posRow, posColumn) == GlobalConstant.INPUT_PASSAGE){
+                    mazeClone.getGrid().setElem(posRow, posColumn, GlobalConstant.OUTPUT_PASSAGE);
                 }
             }
         }
         // Then set the tiles in the path as the output path
         for(GridTile tile: path){
             // Draw this tile to the map if it was previously of type INPUT_PASSAGE
-            if(mazeClone.getGrid().getContentAt(tile.getRow(), tile.getColumn()) == GlobalConstants.OUTPUT_PASSAGE){
-                mazeClone.getGrid().setElem(tile.getRow(), tile.getColumn(), GlobalConstants.OUTPUT_PATH);
+            if(mazeClone.getGrid().getContentAt(tile.getRow(), tile.getColumn()) == GlobalConstant.OUTPUT_PASSAGE){
+                mazeClone.getGrid().setElem(tile.getRow(), tile.getColumn(), GlobalConstant.OUTPUT_PATH);
             }
 
         }
@@ -64,14 +64,14 @@ public class BfsSolver extends Solver implements Solution<Maze> {
                 return drawPath(getPath(node));         // Return the path and draw it on the Grid
             }
             // This position is not reachable, continue the while loop
-            if( node.getContent()    != GlobalConstants.INPUT_PASSAGE
-                && node.getContent() != GlobalConstants.OUTPUT_START){
+            if( node.getContent()    != GlobalConstant.INPUT_PASSAGE
+                && node.getContent() != GlobalConstant.OUTPUT_START){
                 continue;
             }
             // At this point, we know we are in a reachable but not final position
             // Mark this position as visited and examine the neighbours
-            if( node.getContent() == GlobalConstants.INPUT_PASSAGE){
-                node.setContent(GlobalConstants.OUTPUT_PASSAGE);
+            if( node.getContent() == GlobalConstant.INPUT_PASSAGE){
+                node.setContent(GlobalConstant.OUTPUT_PASSAGE);
             }
             // Create a list of accessible neighbours and add each one to the queue, with the current node as parent
             for(GridTile neighbour:  mazeClone.getAvailableNeighbours(node)){
