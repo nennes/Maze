@@ -17,7 +17,7 @@ public class Grid implements Cloneable{
         for (int posRow = 0; posRow < HEIGHT; posRow++) {
             String[] line = initialGrid.get(posRow).split("\\s+");
             for (int posColumn = 0; posColumn < WIDTH; posColumn++) {
-                grid[posRow][posColumn] = new GridTile(posRow, posColumn, GlobalConstant.getConstant(line[posColumn].charAt(0)));
+                grid[posRow][posColumn] = new GridTile(posRow, posColumn, TileContent.getConstant(line[posColumn].charAt(0)));
             }
         }
     }
@@ -36,7 +36,7 @@ public class Grid implements Cloneable{
 
         for (int posRow = 0; posRow < HEIGHT; posRow++) {
             for (int posColumn = 0; posColumn < WIDTH; posColumn++) {
-                grid[posRow][posColumn] = new GridTile(posRow, posColumn, GlobalConstant.INPUT_WALL);
+                grid[posRow][posColumn] = new GridTile(posRow, posColumn, TileContent.INPUT_WALL);
             }
         }
     }
@@ -58,8 +58,8 @@ public class Grid implements Cloneable{
         return cloned;
     }
 
-    public GlobalConstant getContentAt(int posRow, int posColumn){ return grid[posRow][posColumn].getContent(); }
-    public void setElem(int posRow, int posColumn, GlobalConstant val){ grid[posRow][posColumn].setContent(val); }
+    public TileContent getContentAt(int posRow, int posColumn){ return grid[posRow][posColumn].getContent(); }
+    public void setElem(int posRow, int posColumn, TileContent val){ grid[posRow][posColumn].setContent(val); }
     public GridTile getElemAt(int posRow, int posColumn) { return grid[posRow][posColumn]; }
 
     public void setGrid(GridTile[][] newGrid) {

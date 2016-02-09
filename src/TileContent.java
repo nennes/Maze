@@ -1,4 +1,4 @@
-public enum GlobalConstant {
+public enum TileContent {
     // declare enum constants
     INPUT_WALL(     '1'),
     INPUT_PASSAGE(  '0'),
@@ -10,7 +10,7 @@ public enum GlobalConstant {
 
     private final char content;
 
-    GlobalConstant(char c) {
+    TileContent(char c) {
         content = c;
     }
 
@@ -18,8 +18,8 @@ public enum GlobalConstant {
         return content;
     }
 
-    public static GlobalConstant getConstant(char search_c) throws Exception{
-        for (GlobalConstant gc: GlobalConstant.values()) {
+    public static TileContent getConstant(char search_c) throws Exception{
+        for (TileContent gc: TileContent.values()) {
             if (gc.getContent() == search_c) {
                 return gc;
             }

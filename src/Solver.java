@@ -3,7 +3,7 @@ public class Solver {
     protected int mazeWidth;
     Maze mazeClone;
 
-    protected boolean solutionAchieved; // Indicates if the algorithm was successful in solving the maze.
+    private boolean solutionAchieved; // Indicates if the algorithm was successful in solving the maze.
 
     public Solver(Maze maze){
 
@@ -17,5 +17,6 @@ public class Solver {
         mazeWidth = mazeClone.getWidth();
     }
 
+    public void setSolutionAchieved(boolean achieved) { this.solutionAchieved = achieved; }
     public boolean solutionAchieved() { return this.solutionAchieved; }
 }

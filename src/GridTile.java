@@ -1,10 +1,10 @@
 public class GridTile {
 
     private int[] coordinates;
-    private GlobalConstant content;
+    private TileContent content;
     private GridTile parent;  // parent coordinate, used if we choose to view the grid as a tree
 
-    public GridTile(int row, int column, GlobalConstant content) {
+    public GridTile(int row, int column, TileContent content) {
         coordinates = new int[2];
         coordinates[0] = row;
         coordinates[1] = column;
@@ -20,6 +20,6 @@ public class GridTile {
     public int[] getCoordinates() { return this.coordinates; }
     public GridTile getParent(){ return this.parent; }
     public void setParent(GridTile parent){ this.parent = parent; }
-    public GlobalConstant getContent(){ return this.content; }
-    public void setContent(GlobalConstant content){ this.content = content; }
+    public TileContent getContent(){ return this.content; }
+    public void setContent(TileContent content){ this.content = content; }
 }

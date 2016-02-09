@@ -48,16 +48,16 @@ public class Maze implements Cloneable{
         for (int posRow = 0; posRow < HEIGHT; posRow++) {
             for (int posColumn = 0; posColumn < WIDTH; posColumn++) {
                 if(posRow == START_POS.getRow() && posColumn == START_POS.getColumn()){
-                    gridString += GlobalConstant.OUTPUT_START.toString() + ' ';
+                    gridString += TileContent.OUTPUT_START.toString() + ' ';
                 }
                 else if(posRow == END_POS.getRow() && posColumn == END_POS.getColumn()){
-                    gridString += GlobalConstant.OUTPUT_END.toString() + ' ';
+                    gridString += TileContent.OUTPUT_END.toString() + ' ';
                 }
-                else if(grid.getContentAt(posRow, posColumn) == GlobalConstant.INPUT_PASSAGE){
-                    gridString += GlobalConstant.OUTPUT_PATH.toString() + ' ';
+                else if(grid.getContentAt(posRow, posColumn) == TileContent.INPUT_PASSAGE){
+                    gridString += TileContent.OUTPUT_PATH.toString() + ' ';
                 }
-                else if(grid.getContentAt(posRow, posColumn) == GlobalConstant.INPUT_WALL){
-                    gridString += GlobalConstant.OUTPUT_WALL.toString() +  ' ';
+                else if(grid.getContentAt(posRow, posColumn) == TileContent.INPUT_WALL){
+                    gridString += TileContent.OUTPUT_WALL.toString() +  ' ';
                 }
                 else{
                     gridString += grid.getContentAt(posRow, posColumn).toString() +  ' ';
@@ -88,11 +88,11 @@ public class Maze implements Cloneable{
         allInputLines.remove(0); // No longer needed in the list, removing
 
         mazeMetadataTemp = allInputLines.get(0).split("\\s+");
-        this.START_POS = new GridTile(Integer.parseInt(mazeMetadataTemp[0]), Integer.parseInt(mazeMetadataTemp[1]), GlobalConstant.OUTPUT_START);
+        this.START_POS = new GridTile(Integer.parseInt(mazeMetadataTemp[0]), Integer.parseInt(mazeMetadataTemp[1]), TileContent.OUTPUT_START);
         allInputLines.remove(0); // No longer needed in the list, removing
 
         mazeMetadataTemp = allInputLines.get(0).split("\\s+");
-        this.END_POS = new GridTile(Integer.parseInt(mazeMetadataTemp[0]), Integer.parseInt(mazeMetadataTemp[1]), GlobalConstant.OUTPUT_END);
+        this.END_POS = new GridTile(Integer.parseInt(mazeMetadataTemp[0]), Integer.parseInt(mazeMetadataTemp[1]), TileContent.OUTPUT_END);
         allInputLines.remove(0); // No longer needed in the list, removing
 
         //Send the remaining list to be transformed to a Grid object
@@ -109,9 +109,9 @@ public class Maze implements Cloneable{
         this.WIDTH  = (mazeDimensions[1]%2==0)?mazeDimensions[1]+1:mazeDimensions[1];
 
         /* Always start at the top left */
-        this.START_POS = new GridTile(1,1, GlobalConstant.OUTPUT_START);
+        this.START_POS = new GridTile(1,1, TileContent.OUTPUT_START);
         /* Always end at the bottom right */
-        this.END_POS   = new GridTile(this.HEIGHT - 2, this.WIDTH - 2, GlobalConstant.OUTPUT_END);
+        this.END_POS   = new GridTile(this.HEIGHT - 2, this.WIDTH - 2, TileContent.OUTPUT_END);
         /**
          * Create an empty Grid
          */
@@ -136,22 +136,22 @@ public class Maze implements Cloneable{
             List<GridTile> neighbours = new LinkedList<>();
 
             if( node.getRow() >= 2
-                    && grid.getContentAt(node.getRow() - 2, node.getColumn()) != GlobalConstant.INPUT_PASSAGE)
+                    && grid.getContentAt(node.getRow() - 2, node.getColumn()) != TileContent.INPUT_PASSAGE)
             {
                 neighbours.add(grid.getElemAt(node.getRow() - 2, node.getColumn()));  // The North side is available
             }
             if( node.getColumn() >= 2
-                    && grid.getContentAt(node.getRow(), node.getColumn() - 2) != GlobalConstant.INPUT_PASSAGE)
+                    && grid.getContentAt(node.getRow(), node.getColumn() - 2) != TileContent.INPUT_PASSAGE)
             {
                 neighbours.add(grid.getElemAt(node.getRow(), node.getColumn() - 2));  // The West side is available
             }
             if( node.getRow() < HEIGHT - 2
-                    && grid.getContentAt(node.getRow() + 2, node.getColumn()) != GlobalConstant.INPUT_PASSAGE)
+                    && grid.getContentAt(node.getRow() + 2, node.getColumn()) != TileContent.INPUT_PASSAGE)
             {
                 neighbours.add(grid.getElemAt(node.getRow() + 2, node.getColumn()));  // The South side is available
             }
             if( node.getColumn() < WIDTH - 2
-                    && grid.getContentAt(node.getRow(), node.getColumn() + 2) != GlobalConstant.INPUT_PASSAGE)
+                    && grid.getContentAt(node.getRow(), node.getColumn() + 2) != TileContent.INPUT_PASSAGE)
             {
                 neighbours.add(grid.getElemAt(node.getRow(), node.getColumn() + 2));  // The East side is available
             }
@@ -171,9 +171,9 @@ public class Maze implements Cloneable{
                 int selectedColumn = neighbours.get(nextNodeIndex).getColumn();
 
                 /* Mark the tile 2 blocks away as "open" */
-                grid.setElem(selectedRow, selectedColumn, GlobalConstant.INPUT_PASSAGE);
+                grid.setElem(selectedRow, selectedColumn, TileContent.INPUT_PASSAGE);
                 /* Mark the adjacent tile as "open" */
-                grid.setElem((node.getRow() + selectedRow)/2,(node.getColumn() + selectedColumn)/2, GlobalConstant.INPUT_PASSAGE);
+                grid.setElem((node.getRow() + selectedRow)/2,(node.getColumn() + selectedColumn)/2, TileContent.INPUT_PASSAGE);
                 /* Recurse using the selected tile (2 tiles away from the current) */
                 generateGrid(grid.getElemAt(selectedRow, selectedColumn));
             }
@@ -193,22 +193,22 @@ public class Maze implements Cloneable{
     public List<GridTile> getAvailableNeighbours(GridTile node){
         List<GridTile> neighbours = new LinkedList<>();
         if( node.getRow() >= 1
-            && grid.getContentAt(node.getRow() - 1, node.getColumn()) == GlobalConstant.INPUT_PASSAGE)
+            && grid.getContentAt(node.getRow() - 1, node.getColumn()) == TileContent.INPUT_PASSAGE)
         {
             neighbours.add(grid.getElemAt(node.getRow() - 1, node.getColumn()));  // The North tile is available
         }
         if( node.getColumn() >= 1
-            && grid.getContentAt(node.getRow(), node.getColumn() - 1) == GlobalConstant.INPUT_PASSAGE)
+            && grid.getContentAt(node.getRow(), node.getColumn() - 1) == TileContent.INPUT_PASSAGE)
         {
             neighbours.add(grid.getElemAt(node.getRow(), node.getColumn() - 1));  // The West tile is available
         }
         if( node.getRow() < HEIGHT - 1
-            && grid.getContentAt(node.getRow() + 1, node.getColumn()) == GlobalConstant.INPUT_PASSAGE)
+            && grid.getContentAt(node.getRow() + 1, node.getColumn()) == TileContent.INPUT_PASSAGE)
         {
             neighbours.add(grid.getElemAt(node.getRow() + 1, node.getColumn()));  // The South tile is available
         }
         if( node.getColumn() < WIDTH - 1
-            && grid.getContentAt(node.getRow(), node.getColumn() + 1) == GlobalConstant.INPUT_PASSAGE)
+            && grid.getContentAt(node.getRow(), node.getColumn() + 1) == TileContent.INPUT_PASSAGE)
         {
             neighbours.add(grid.getElemAt(node.getRow(), node.getColumn() + 1));  // The East tile is available
         }
