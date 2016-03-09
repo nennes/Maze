@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class PruneSolver extends Solver implements Solution<Maze> {
+public class PruneSolver extends Solver implements Solution {
 
     // Execute the constructor of the parent Class, where all the common dependencies lie.
     public PruneSolver(Maze maze) {

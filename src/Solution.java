@@ -1,4 +1,4 @@
-public interface Solution<Maze> {
+public interface Solution {
     Maze solve();
     boolean solutionAchieved();
 }

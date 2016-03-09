@@ -1,7 +1,7 @@
 public class SolutionFactory {
     // Factory that determines which solver will run
 
-    public Solution<Maze> getSolution(Maze maze, String solutionType){
+    public Solution getSolution(Maze maze, String solutionType){
         if(solutionType == null){
             return null;
         }

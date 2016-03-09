@@ -3,7 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class BfsSolver extends Solver implements Solution<Maze> {
+public class BfsSolver extends Solver implements Solution {
 
     public BfsSolver(Maze maze){
         super(maze);
