@@ -1,3 +1,5 @@
+package nennes.maze;
+
 public class SolutionFactory {
     // Factory that determines which solver will run
 

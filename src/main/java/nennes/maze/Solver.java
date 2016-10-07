@@ -1,3 +1,5 @@
+package nennes.maze;
+
 public class Solver {
     protected int mazeHeight;
     protected int mazeWidth;

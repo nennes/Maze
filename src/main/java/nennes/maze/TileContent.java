@@ -1,3 +1,5 @@
+package nennes.maze;
+
 public enum TileContent {
     // declare enum constants
     INPUT_WALL(     '1'),

@@ -1,3 +1,5 @@
+package nennes.maze;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +8,7 @@ public class Utils {
 
     // Return a list of filenames in a directory
     public static List<File> getFileList(String path){
-        List<File> results = new ArrayList<>();
+        List<File> results = new ArrayList();
 
         //If this pathname does not denote a directory, then listFiles() returns null.
         File[] files = new File(path).listFiles();

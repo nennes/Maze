@@ -1,3 +1,5 @@
+package nennes.maze;
+
 public class GridTile {
 
     private int[] coordinates;

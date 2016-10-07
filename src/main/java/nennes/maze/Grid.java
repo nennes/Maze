@@ -1,3 +1,5 @@
+package nennes.maze;
+
 import java.util.LinkedList;
 import java.util.List;
 

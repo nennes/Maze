@@ -1,10 +1,17 @@
+package nennes.maze.demo;
+
+import nennes.maze.Maze;
+import nennes.maze.Solution;
+import nennes.maze.SolutionFactory;
+import nennes.maze.Utils;
+
 import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
 
-public class MazeSolvingDemo {
+public class Demo {
 
     private static final String INPUT_DIRECTORY = "inputs";
 
@@ -161,7 +168,7 @@ public class MazeSolvingDemo {
 
         if(solution.solutionAchieved()){
             System.out.println(maze);
-            System.out.println("Time to compute: " + (endTime - startTime)/1000000 + " millisecond(s)");
+            System.out.println("Time to compute: " + (endTime - startTime)/1_000_000 + " millisecond(s)");
         }
         else{
             // Failed to locate a valid path

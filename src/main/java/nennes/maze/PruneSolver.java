@@ -1,3 +1,5 @@
+package nennes.maze;
+
 import java.util.Arrays;
 
 public class PruneSolver extends Solver implements Solution {
