@@ -1,5 +1,7 @@
 # Maze
 
+[![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/nennes/maze)
+
 ### This is a maze generating and solving Java application.
 
 ## Description
